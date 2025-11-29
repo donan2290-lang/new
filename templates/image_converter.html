@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Converter - Convert JPG, PNG, WebP & More | Snapload</title>
+    <meta name="description" content="Free online image converter. Convert JPG to PNG, PNG to JPG, WebP to JPG and more. Fast, secure, and easy to use. No registration required.">
+    <meta name="keywords" content="image converter, jpg to png, png to jpg, webp to jpg, convert image online, free image converter">
+    <link rel="canonical" href="{{ request.base_url }}">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <meta name="author" content="Snapload">
+    <meta name="theme-color" content="#667eea">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="dns-prefetch" href="https://cdn-icons-png.flaticon.com">
+    <link rel="dns-prefetch" href="https://logo.clearbit.com">
+    <link rel="preconnect" href="https://cdn-icons-png.flaticon.com" crossorigin>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Image Converter - Convert Image Files Online Free">
+    <meta property="og:description" content="Convert JPG to PNG, PNG to JPG, WebP to JPG and more. Fast and secure online image converter.">
+    <meta property="og:url" content="{{ request.base_url }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preload" as="style" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" media="print" onload="this.media='all'; this.onload=null;"><noscript><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></noscript>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="/"><h1>Snapload</h1></a>
+            </div>
+            
+            <!-- Hamburger Button (Mobile Only) -->
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <!-- Navigation -->
+            <nav id="mainNav">
+                <div class="nav-header">
+                    <span class="nav-title">Menu</span>
+                    <button class="close-btn" id="closeNavBtn" aria-label="Close menu">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <ul>
+                    <li><a href="/">Video Downloader</a></li>
+                    <li><a href="/pdf-converter">PDF Converter</a></li>
+                    <li><a href="/image-converter" class="active">Image Tools</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Overlay -->
+            <div class="nav-overlay" id="navOverlay"></div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                {% if tool_type %}
+                    {% if tool_type == 'jpg-to-png' %}
+                        <h1>JPG to PNG Converter</h1>
+                        <p class="subtitle">Convert JPG images to PNG format - Free & Secure</p>
+                    {% elif tool_type == 'png-to-jpg' %}
+                        <h1>PNG to JPG Converter</h1>
+                        <p class="subtitle">Convert PNG images to JPG format - Free & Secure</p>
+                    {% elif tool_type == 'webp-to-jpg' %}
+                        <h1>WebP to JPG Converter</h1>
+                        <p class="subtitle">Convert WebP images to JPG format - Free & Secure</p>
+                    {% endif %}
+                {% else %}
+                    <h1>Image Converter</h1>
+                    <p class="subtitle">Convert JPG, PNG, WebP and more - Free & Secure</p>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="download-section">
+            <div class="container">
+                <!-- Conversion Interface (shown when tool_type is specified) -->
+                {% if tool_type %}
+                <div id="conversionInterface" style="margin-bottom: 30px;">
+                    
+                    <div class="upload-area file-upload-area" id="uploadArea">
+                        <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.webp" style="display: none;">
+                        <h3>Choose File or Drag & Drop</h3>
+                        <p id="fileTypeHint" style="color: #666; margin: 10px 0;">Supported format: JPG, PNG, WebP</p>
+                        <button class="upload-btn" onclick="document.getElementById('fileInput').click()" style="margin-top: 20px; padding: 12px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;">Select File</button>
+                    </div>
+
+                    <div id="filePreview" style="display: none; background: white; padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid #e0e0e0;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; gap: 20px;">
+                            <img id="previewImg" src="" alt="Preview" style="max-width: 200px; max-height: 200px; border-radius: 8px; object-fit: cover;">
+                            <div style="flex: 1;">
+                                <div id="fileName" style="font-weight: 600; margin-bottom: 5px;"></div>
+                                <div id="fileSize" style="color: #666; font-size: 14px;"></div>
+                            </div>
+                            <button onclick="removeFile()" style="background: #ff4444; color: white; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 18px;">×</button>
+                        </div>
+                    </div>
+
+                    <div id="loading" class="loading" style="display: none; text-align: center; padding: 30px; background: white; border-radius: 12px; border: 1px solid #e0e0e0;">
+                        <div class="spinner"></div>
+                        <p>Converting your file...</p>
+                        <div style="width: 100%; height: 8px; background: #e0e0e0; border-radius: 4px; margin-top: 20px; overflow: hidden;">
+                            <div id="progressFill" style="height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: 0%; transition: width 0.3s;"></div>
+                        </div>
+                    </div>
+
+                    <div id="result" class="result" style="display: none; text-align: center; padding: 30px; background: white; border-radius: 12px; border: 1px solid #e0e0e0;">
+                        <h3>Conversion Complete!</h3>
+                        <p id="resultMessage" style="color: #666; margin: 15px 0;">Your file has been converted successfully!</p>
+                        <a id="downloadLink" class="download-btn" download style="display: inline-block; margin: 20px 0; padding: 15px 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+                            Download File
+                        </a>
+                        <br>
+                        <button onclick="resetConverter()" style="margin-top: 10px; padding: 10px 25px; background: white; border: 2px solid #667eea; color: #667eea; border-radius: 8px; cursor: pointer; font-weight: 600;">Convert Another File</button>
+                    </div>
+
+                    <div id="error" class="error" style="display: none; padding: 20px; background: #fee; border-radius: 8px; color: #c33; margin: 20px 0;">
+                        <p></p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Tools Grid -->
+                <div id="toolsGrid" class="tools-section">
+                    <h2 class="tools-main-title">All Tools & Services</h2>
+                    
+                    <!-- Tab Navigation -->
+                    <div class="tools-tabs" role="tablist">
+                        <a href="/" class="tool-tab" data-category="video-downloader" role="tab">Video Downloader</a>
+                        <a href="/pdf-converter" class="tool-tab" data-category="convert-pdf" role="tab">Convert PDF</a>
+                        <a href="/image-converter" class="tool-tab active" data-category="image-tools" role="tab">Image Tools</a>
+                    </div>
+
+                    <!-- Video Downloader Category -->
+                    <div class="tools-category" data-category="video-downloader" style="display: none;">
+                        <div class="tools-list">
+                            <a href="/" class="tool-item">
+                                <img src="https://logo.clearbit.com/tiktok.com" alt="TikTok" style="width: 48px; height: 48px; margin-bottom: 10px; border-radius: 8px;" onerror="this.style.display='none'" width="48" height="48">
+                                <span class="tool-title">TikTok Downloader</span>
+                                <p>Download TikTok videos without watermark</p>
+                            </a>
+                            <a href="/instagram" class="tool-item">
+                                <img src="https://logo.clearbit.com/instagram.com" alt="Instagram" style="width: 48px; height: 48px; margin-bottom: 10px; border-radius: 8px;" onerror="this.style.display='none'" width="48" height="48">
+                                <span class="tool-title">Instagram Downloader</span>
+                                <p>Save Instagram videos and photos</p>
+                            </a>
+                            <a href="/youtube" class="tool-item">
+                                <img src="https://logo.clearbit.com/youtube.com" alt="YouTube" style="width: 48px; height: 48px; margin-bottom: 10px; border-radius: 8px;" onerror="this.style.display='none'" width="48" height="48">
+                                <span class="tool-title">YouTube Downloader</span>
+                                <p>Download YouTube videos in HD</p>
+                            </a>
+                            <a href="/facebook" class="tool-item">
+                                <img src="https://logo.clearbit.com/facebook.com" alt="Facebook" style="width: 48px; height: 48px; margin-bottom: 10px; border-radius: 8px;" onerror="this.style.display='none'" width="48" height="48">
+                                <span class="tool-title">Facebook Downloader</span>
+                                <p>Download Facebook videos</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Convert PDF Category -->
+                    <div class="tools-category" data-category="convert-pdf" style="display: none;">
+                        <div class="tools-list">
+                            <a href="/pdf-converter/pdf-to-word" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/Microsoft_Office_Word_(2019%E2%80%93present).svg" onerror="this.src='https://cdn-icons-png.flaticon.com/32/888/888883.png'" alt="Word" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">PDF to Word</span>
+                                <p>Convert PDF to editable DOCX format</p>
+                            </a>
+                            <a href="/pdf-converter/word-to-pdf" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/Microsoft_Office_Word_(2019%E2%80%93present).svg" onerror="this.src='https://cdn-icons-png.flaticon.com/32/888/888883.png'" alt="Word" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">Word to PDF</span>
+                                <p>Convert Word documents to PDF</p>
+                            </a>
+                            <a href="/pdf-converter/pdf-to-excel" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Microsoft_Office_Excel_(2019%E2%80%93present).svg" onerror="this.src='https://cdn-icons-png.flaticon.com/32/888/888850.png'" alt="Excel" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">PDF to Excel</span>
+                                <p>Convert PDF to Excel spreadsheet</p>
+                            </a>
+                            <a href="/pdf-converter/excel-to-pdf" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Microsoft_Office_Excel_(2019%E2%80%93present).svg" onerror="this.src='https://cdn-icons-png.flaticon.com/32/888/888850.png'" alt="Excel" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">Excel to PDF</span>
+                                <p>Convert Excel files to PDF</p>
+                            </a>
+                            <a href="/pdf-converter/pdf-to-ppt" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Microsoft_Office_PowerPoint_(2019%E2%80%93present).svg" onerror="this.src='https://cdn-icons-png.flaticon.com/32/888/888874.png'" alt="PowerPoint" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">PDF to PowerPoint</span>
+                                <p>Convert PDF to PPT presentation</p>
+                            </a>
+                            <a href="/pdf-converter/ppt-to-pdf" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Microsoft_Office_PowerPoint_(2019%E2%80%93present).svg" onerror="this.src='https://cdn-icons-png.flaticon.com/32/888/888874.png'" alt="PowerPoint" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">PowerPoint to PDF</span>
+                                <p>Convert PPT to PDF format</p>
+                            </a>
+                            <a href="/pdf-converter/pdf-to-jpg" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337940.png" alt="JPG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">PDF to JPG</span>
+                                <p>Convert PDF pages to JPG images</p>
+                            </a>
+                            <a href="/pdf-converter/jpg-to-pdf" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337940.png" alt="JPG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">JPG to PDF</span>
+                                <p>Convert JPG images to PDF</p>
+                            </a>
+                            <a href="/pdf-converter/pdf-to-png" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337948.png" alt="PNG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">PDF to PNG</span>
+                                <p>Convert PDF pages to PNG images</p>
+                            </a>
+                            <a href="/pdf-converter/png-to-pdf" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337948.png" alt="PNG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">PNG to PDF</span>
+                                <p>Convert PNG images to PDF</p>
+                            </a>
+                            <a href="/pdf-converter/merge-pdf" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">+</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">Merge PDF</span>
+                                <p>Combine multiple PDFs into one</p>
+                            </a>
+                            <a href="/pdf-converter/split-pdf" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">Split PDF</span>
+                                <p>Extract pages from PDF</p>
+                            </a>
+                            <a href="/pdf-converter/compress-pdf" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy" style="opacity: 0.6; transform: scale(0.8);">
+                                </div>
+                                <span class="tool-title">Compress PDF</span>
+                                <p>Reduce PDF file size</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Image Tools Category -->
+                    <div class="tools-category active-category" data-category="image-tools" style="display: block;">
+                        <div class="tools-list">
+                            <a href="/image-converter/jpg-to-png" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337940.png" alt="JPG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337948.png" alt="PNG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">JPG to PNG</span>
+                                <p>Convert JPG images to PNG format</p>
+                            </a>
+                            <a href="/image-converter/png-to-jpg" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337948.png" alt="PNG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337940.png" alt="JPG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">PNG to JPG</span>
+                                <p>Convert PNG images to JPG format</p>
+                            </a>
+                            <a href="/image-converter/webp-to-jpg" class="tool-item">
+                                <div class="tool-logos-combo">
+                                    <img src="https://cdn-icons-png.flaticon.com/64/136/136526.png" alt="WebP" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337940.png" alt="JPG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">WebP to JPG</span>
+                                <p>Convert WebP images to JPG format</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Snapload. All rights reserved.</p>
+            <p>
+                <a href="#privacy">Privacy Policy</a> | 
+                <a href="#terms">Terms of Service</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Pass tool_type to JavaScript
+        window.IMAGE_CONVERTER_TOOL_TYPE = '{{ tool_type if tool_type else "" }}';
+        
+        // Initialize page on load
+        window.addEventListener('DOMContentLoaded', function() {
+            const toolType = '{{ tool_type if tool_type else "" }}';
+            
+            // Always show tools grid
+            const toolsGrid = document.getElementById('toolsGrid');
+            const conversionInterface = document.getElementById('conversionInterface');
+            
+            // Force show tools grid with important
+            if (toolsGrid) {
+                toolsGrid.style.display = 'block';
+                toolsGrid.style.visibility = 'visible';
+                toolsGrid.style.opacity = '1';
+                console.log('Tools grid forced to show');
+            }
+            
+            // Setup category visibility
+            document.querySelectorAll('.tools-category').forEach(cat => {
+                cat.classList.remove('active-category');
+                cat.style.display = 'none';
+            });
+            
+            // Show Image Tools category by default
+            const imageToolsCategory = document.querySelector('.tools-category[data-category="image-tools"]');
+            if (imageToolsCategory) {
+                imageToolsCategory.classList.add('active-category');
+                imageToolsCategory.style.display = 'block';
+            }
+            
+            // Set Image Tools tab as active
+            document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
+            const imageToolsTab = document.querySelector('.tool-tab[data-category="image-tools"]');
+            if (imageToolsTab) {
+                imageToolsTab.classList.add('active');
+            }
+            
+            // If we have a specific tool selected, show conversion interface
+            if (toolType && toolType !== 'None' && toolType !== '') {
+                if (conversionInterface) conversionInterface.style.display = 'block';
+                showConversionInterface(toolType);
+            } else {
+                if (conversionInterface) conversionInterface.style.display = 'none';
+            }
+        });
+
+        function showConversionInterface(type) {
+            // Set current conversion type
+            window.currentConversionType = type;
+            updateFileTypeHint(type);
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showTools() {
+            // Redirect to main image converter page
+            window.location.href = '/image-converter';
+        }
+
+        function updateFileTypeHint(type) {
+            const hints = {
+                'jpg-to-png': 'Supported format: JPG, JPEG',
+                'png-to-jpg': 'Supported format: PNG',
+                'webp-to-jpg': 'Supported format: WebP'
+            };
+            
+            const hintElement = document.getElementById('fileTypeHint');
+            if (hintElement) {
+                hintElement.textContent = hints[type];
+            }
+        }
+
+        function resetConverter() {
+            const fileInput = document.getElementById('fileInput');
+            const filePreview = document.getElementById('filePreview');
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const error = document.getElementById('error');
+            const uploadArea = document.getElementById('uploadArea');
+            const progressFill = document.getElementById('progressFill');
+            
+            if (fileInput) fileInput.value = '';
+            if (filePreview) filePreview.style.display = 'none';
+            if (loading) loading.style.display = 'none';
+            if (result) result.style.display = 'none';
+            if (error) error.style.display = 'none';
+            if (uploadArea) uploadArea.style.display = 'block';
+            if (progressFill) progressFill.style.width = '0%';
+        }
+
+        function removeFile() {
+            resetConverter();
+        }
+
+        // Drag and drop
+        const uploadArea = document.getElementById('uploadArea');
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => {
+                uploadArea.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => {
+                uploadArea.classList.remove('dragover');
+            }, false);
+        });
+
+        uploadArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length > 0) {
+                document.getElementById('fileInput').files = files;
+                handleFileSelect({ target: { files: files } });
+            }
+        }
+
+        // File input change
+        document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('uploadArea').style.display = 'none';
+                document.getElementById('filePreview').style.display = 'block';
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileSize').textContent = formatFileSize(file.size);
+                
+                // Auto convert after file selection
+                setTimeout(() => convertFile(), 500);
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            else if (bytes < 1048576) return (bytes / 1024).toFixed(2) + ' KB';
+            else return (bytes / 1048576).toFixed(2) + ' MB';
+        }
+
+        function convertFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showError('Please select a file');
+                return;
+            }
+
+            document.getElementById('filePreview').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Simulate progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 10;
+                document.getElementById('progressFill').style.width = progress + '%';
+                if (progress >= 90) clearInterval(progressInterval);
+            }, 200);
+
+            // Determine endpoint based on conversion type
+            const endpoints = {
+                'jpg-to-png': '/api/image/jpg-to-png',
+                'png-to-jpg': '/api/image/png-to-jpg',
+                'webp-to-jpg': '/api/image/webp-to-jpg'
+            };
+
+            fetch(endpoints[window.currentConversionType], {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                clearInterval(progressInterval);
+                document.getElementById('progressFill').style.width = '100%';
+                
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.error || 'Conversion failed');
+                    });
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('result').style.display = 'block';
+                
+                const url = window.URL.createObjectURL(blob);
+                const downloadLink = document.getElementById('downloadLink');
+                downloadLink.href = url;
+                
+                const extensions = {
+                    'jpg-to-png': 'png',
+                    'png-to-jpg': 'jpg',
+                    'webp-to-jpg': 'jpg'
+                };
+                
+                const originalName = file.name.split('.')[0];
+                downloadLink.download = `converted_${originalName}.${extensions[window.currentConversionType]}`;
+            })
+            .catch(error => {
+                clearInterval(progressInterval);
+                document.getElementById('loading').style.display = 'none';
+                showError(error.message);
+            });
+        }
+
+        function showError(message) {
+            const filePreview = document.getElementById('filePreview');
+            const error = document.getElementById('error');
+            const errorP = error ? error.querySelector('p') : null;
+            
+            if (filePreview) filePreview.style.display = 'none';
+            if (error) error.style.display = 'block';
+            if (errorP) errorP.textContent = message;
+        }
+
+        // Style for upload area
+        const uploadAreaEl = document.getElementById('uploadArea');
+        if (uploadAreaEl) {
+            uploadAreaEl.style.cssText = `
+                border: 3px dashed #e0e0e0;
+                border-radius: 12px;
+                padding: 60px 40px;
+                text-align: center;
+                background: #fafafa;
+                transition: all 0.3s;
+                cursor: pointer;
+                margin: 20px 0;
+            `;
+        }
+    </script>
+    
+    <!-- Load Image Converter JavaScript -->
+    <script src="{{ url_for('static', filename='image-converter.js') }}"></script>
+</body>
+</html>
+

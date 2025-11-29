@@ -1,0 +1,227 @@
+# Indonesian translations for Snapload Video Downloader.
+# Copyright (C) 2025
+# This file is distributed under the same license as the project.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-21 12:00+0000\n"
+"PO-Revision-Date: 2025-11-21 12:00+0000\n"
+"Last-Translator: \n"
+"Language: id\n"
+"Language-Team: id <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.0\n"
+
+# Navigation & Common
+msgid "home"
+msgstr "Beranda"
+
+msgid "download_video"
+msgstr "Download Video"
+
+msgid "pdf_converter"
+msgstr "Konversi PDF"
+
+msgid "image_converter"
+msgstr "Konversi Gambar"
+
+msgid "language"
+msgstr "Bahasa"
+
+# Video Downloader
+msgid "video_downloader_title"
+msgstr "Download Video YouTube, TikTok, Instagram & Lainnya"
+
+msgid "video_downloader_description"
+msgstr "Download video dari berbagai platform dengan mudah dan cepat. Gratis tanpa batas!"
+
+msgid "paste_video_url"
+msgstr "Tempel URL video disini..."
+
+msgid "download_button"
+msgstr "Download"
+
+msgid "select_quality"
+msgstr "Pilih Kualitas"
+
+msgid "downloading"
+msgstr "Mengunduh..."
+
+msgid "download_success"
+msgstr "Download berhasil!"
+
+msgid "download_failed"
+msgstr "Download gagal"
+
+msgid "invalid_url"
+msgstr "URL tidak valid"
+
+msgid "unsupported_platform"
+msgstr "Platform tidak didukung"
+
+msgid "supported_platforms"
+msgstr "Platform yang Didukung"
+
+# PDF Converter
+msgid "pdf_converter_title"
+msgstr "Konversi PDF - PDF ke Word, Excel, JPG & Lainnya"
+
+msgid "pdf_converter_description"
+msgstr "Konversi file PDF ke berbagai format secara gratis"
+
+msgid "pdf_to_word"
+msgstr "PDF ke Word"
+
+msgid "pdf_to_excel"
+msgstr "PDF ke Excel"
+
+msgid "pdf_to_jpg"
+msgstr "PDF ke JPG"
+
+msgid "pdf_to_png"
+msgstr "PDF ke PNG"
+
+msgid "word_to_pdf"
+msgstr "Word ke PDF"
+
+msgid "excel_to_pdf"
+msgstr "Excel ke PDF"
+
+msgid "jpg_to_pdf"
+msgstr "JPG ke PDF"
+
+msgid "merge_pdf"
+msgstr "Gabung PDF"
+
+msgid "split_pdf"
+msgstr "Pisah PDF"
+
+msgid "compress_pdf"
+msgstr "Kompres PDF"
+
+msgid "upload_file"
+msgstr "Upload File"
+
+msgid "convert_button"
+msgstr "Konversi"
+
+msgid "converting"
+msgstr "Mengkonversi..."
+
+msgid "conversion_success"
+msgstr "Konversi berhasil!"
+
+msgid "conversion_failed"
+msgstr "Konversi gagal"
+
+# Image Converter
+msgid "image_converter_title"
+msgstr "Konversi Gambar - JPG, PNG, WebP & Lainnya"
+
+msgid "image_converter_description"
+msgstr "Konversi format gambar secara gratis dan mudah"
+
+msgid "jpg_to_png"
+msgstr "JPG ke PNG"
+
+msgid "png_to_jpg"
+msgstr "PNG ke JPG"
+
+msgid "webp_to_jpg"
+msgstr "WebP ke JPG"
+
+msgid "remove_background"
+msgstr "Hapus Background"
+
+msgid "resize_image"
+msgstr "Ubah Ukuran"
+
+msgid "compress_image"
+msgstr "Kompres Gambar"
+
+msgid "enhance_image"
+msgstr "Tingkatkan Kualitas"
+
+# File Upload
+msgid "drag_drop_file"
+msgstr "Seret & lepas file disini"
+
+msgid "or"
+msgstr "atau"
+
+msgid "browse_file"
+msgstr "Pilih File"
+
+msgid "max_file_size"
+msgstr "Ukuran maksimal"
+
+msgid "file_selected"
+msgstr "File terpilih"
+
+msgid "select_files"
+msgstr "Pilih File"
+
+# Errors & Messages
+msgid "error_occurred"
+msgstr "Terjadi kesalahan"
+
+msgid "please_try_again"
+msgstr "Silakan coba lagi"
+
+msgid "no_file_selected"
+msgstr "Tidak ada file yang dipilih"
+
+msgid "invalid_file_type"
+msgstr "Tipe file tidak valid"
+
+msgid "file_too_large"
+msgstr "File terlalu besar"
+
+msgid "rate_limit_exceeded"
+msgstr "Batas permintaan tercapai. Silakan tunggu beberapa saat."
+
+msgid "server_error"
+msgstr "Kesalahan server"
+
+msgid "network_error"
+msgstr "Kesalahan jaringan"
+
+# Features
+msgid "features"
+msgstr "Fitur"
+
+msgid "free_unlimited"
+msgstr "Gratis Tanpa Batas"
+
+msgid "fast_download"
+msgstr "Download Cepat"
+
+msgid "high_quality"
+msgstr "Kualitas Tinggi"
+
+msgid "no_registration"
+msgstr "Tanpa Registrasi"
+
+msgid "secure_private"
+msgstr "Aman & Privat"
+
+# Footer
+msgid "about"
+msgstr "Tentang"
+
+msgid "contact"
+msgstr "Kontak"
+
+msgid "privacy_policy"
+msgstr "Kebijakan Privasi"
+
+msgid "terms_of_service"
+msgstr "Syarat Layanan"
+
+msgid "all_rights_reserved"
+msgstr "Hak Cipta Dilindungi"

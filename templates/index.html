@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title|default('Snapload - Download Video YouTube, TikTok, Instagram & More') }}</title>
+    <meta name="description" content="{{ description|default('Snapload - Download video dari YouTube, TikTok, Instagram, Facebook, BStation, dan Snack Video. Cepat, gratis, dan mudah digunakan.') }}">
+    <meta name="keywords" content="snapload, download video, youtube downloader, tiktok downloader, instagram downloader, facebook downloader, bstation downloader, bilibili downloader, video downloader online, free video downloader, download video gratis, youtube to mp4, tiktok no watermark, instagram video download, facebook video download">
+    <link rel="canonical" href="{{ request.base_url }}">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta name="author" content="Snapload">
+    <meta name="theme-color" content="#667eea">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="dns-prefetch" href="https://logo.clearbit.com">
+    <link rel="preconnect" href="https://logo.clearbit.com" crossorigin>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ title|default('Snapload - Downloader Video') }}">
+    <meta property="og:description" content="{{ description|default('Snapload - Download video gratis dari YouTube, TikTok, Instagram, Facebook, BStation, Snack Video. Cepat dan mudah!') }}">
+    <meta property="og:image" content="{{ og_image|default(url_for('static', filename='og-image.png', _external=True)) }}">
+    <meta property="og:url" content="{{ request.base_url }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ title|default('Snapload - Downloader Video') }}">
+    <meta name="twitter:description" content="{{ description|default('Snapload - Download video gratis dari YouTube, TikTok, Instagram, Facebook, BStation, Snack Video. Cepat dan mudah!') }}">
+    <meta name="twitter:image" content="{{ og_image|default(url_for('static', filename='og-image.png', _external=True)) }}">
+    <link rel="preload" as="style" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" media="print" onload="this.media='all'; this.onload=null;"><noscript><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></noscript>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="/">
+                    <h1>Snapload</h1>
+                </a>
+            </div>
+            
+            <!-- Hamburger Button (Mobile Only) -->
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <!-- Navigation -->
+            <nav id="mainNav">
+                <div class="nav-header">
+                    <span class="nav-title">Menu</span>
+                    <button class="close-btn" id="closeNavBtn" aria-label="Close menu">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <ul>
+                    <li><a href="/youtube" class="{% if platform == 'youtube' %}active{% endif %}">YouTube</a></li>
+                    <li><a href="/facebook" class="{% if platform == 'facebook' %}active{% endif %}">Facebook</a></li>
+                    <li><a href="/instagram" class="{% if platform == 'instagram' %}active{% endif %}">Instagram</a></li>
+                    <li><a href="/tiktok" class="{% if platform == 'tiktok' %}active{% endif %}">TikTok</a></li>
+                    <li><a href="/twitter" class="{% if platform == 'twitter' %}active{% endif %}">Twitter/X</a></li>
+                    <li><a href="/bilibili" class="{% if platform == 'bilibili' %}active{% endif %}">BStation</a></li>
+                    <li><a href="/snackvideo" class="{% if platform == 'snackvideo' %}active{% endif %}">Snack Video</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Overlay -->
+            <div class="nav-overlay" id="navOverlay"></div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="container">
+                {% if platform == 'youtube' %}
+                    <h1>Snapload YouTube Downloader</h1>
+                    <p class="subtitle">Download video YouTube dalam kualitas HD - 1080p, 720p, 480p, 360p dan MP3 audio</p>
+                {% elif platform == 'tiktok' %}
+                    <h1>Snapload TikTok Downloader</h1>
+                    <p class="subtitle">Download video TikTok tanpa watermark - Cepat dan Gratis</p>
+                {% elif platform == 'instagram' %}
+                    <h1>Snapload Instagram Downloader</h1>
+                    <p class="subtitle">Download Instagram Reels, Video, dan IGTV - Tanpa watermark</p>
+                {% elif platform == 'facebook' %}
+                    <h1>Snapload Facebook Downloader</h1>
+                    <p class="subtitle">Download video Facebook dalam kualitas HD - Cepat dan Mudah</p>
+                {% elif platform == 'bilibili' %}
+                    <h1>Snapload BStation Downloader</h1>
+                    <p class="subtitle">Download video BStation - Berbagai pilihan kualitas tersedia</p>
+                {% elif platform == 'snackvideo' %}
+                    <h1>Snapload Snack Video Downloader</h1>
+                    <p class="subtitle">Download konten Snack Video - Cepat dan Sederhana</p>
+                {% elif platform == 'twitter' %}
+                    <h1>Snapload Twitter/X Downloader</h1>
+                    <p class="subtitle">Download video dan GIF dari Twitter/X - HD Quality</p>
+                {% else %}
+                    <h1>Snapload - Downloader Video</h1>
+                    <p class="subtitle">Download video dari YouTube, TikTok, Instagram, Facebook, Twitter/X, BStation, dan Snack Video</p>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="download-section">
+            <div class="container">
+                <div class="download-box">
+                    <form class="input-group" action="javascript:void(0)" role="search" aria-label="Video URL input">
+                        <label for="videoUrl" class="visually-hidden">Video URL</label>
+                        <input type="url" id="videoUrl" name="videoUrl" placeholder="Paste your video link here" autocomplete="off" inputmode="url" aria-describedby="urlHelp">
+                        <button id="downloadBtn" type="button" onclick="downloadVideo()">Download</button>
+                    </form>
+                    <p id="urlHelp" class="visually-hidden">Paste a link from YouTube, TikTok, Instagram, Facebook, BStation, or Snack Video.</p>
+                    <p class="terms">
+                        By using our service you accept our 
+                        <a href="#terms">Terms of Service</a> and 
+                        <a href="#privacy">Privacy Policy</a>
+                    </p>
+                    <div class="tutorial">
+                        <a href="#how-to">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="#1e90ff">
+                                <circle cx="10" cy="10" r="8" fill="none" stroke="#1e90ff" stroke-width="2"/>
+                                <polygon points="8,6 14,10 8,14" fill="#1e90ff"/>
+                            </svg>
+                            How to download?
+                        </a>
+                        <span class="tutorial-hint">Watch the tutorial</span>
+                    </div>
+                </div>
+
+                <div id="loading" class="loading" style="display: none;" aria-live="polite">
+                    <div class="spinner"></div>
+                    <p>Processing your request...</p>
+                </div>
+
+                <div id="result" class="result" style="display: none;" aria-live="polite">
+                    <div class="video-info">
+                        <img id="thumbnail" src="" alt="Video thumbnail" loading="lazy" width="200" height="112">
+                        <div class="info-text">
+                            <h3 id="title"></h3>
+                            <p id="duration"></p>
+                        </div>
+                    </div>
+                    <div class="download-options" id="downloadOptions">
+                        <!-- Download button with dropdown will be populated here -->
+                    </div>
+                </div>
+
+                <div id="error" class="error" style="display: none;" role="alert" aria-live="assertive">
+                    <p></p>
+                </div>
+
+                <!-- Tools Section -->
+                <div class="tools-section">
+                    <h2 class="tools-main-title">All Tools & Services</h2>
+                    
+                    <!-- Tab Navigation -->
+                    <div class="tools-tabs" role="tablist">
+                        <a href="/" class="tool-tab active" data-category="video-downloader" role="tab" aria-selected="true" aria-controls="video-downloader-panel">Video Downloader</a>
+                        <a href="/pdf-converter" class="tool-tab" data-category="convert-pdf" role="tab" aria-selected="false" aria-controls="convert-pdf-panel">Convert PDF</a>
+                        <a href="/image-converter" class="tool-tab" data-category="image-tools" role="tab" aria-selected="false" aria-controls="image-tools-panel">Image Tools</a>
+                    </div>
+                    
+                    <!-- Video Downloader Category -->
+                    <div class="tools-category" data-category="video-downloader" id="video-downloader-panel" role="tabpanel">
+                        <h3 class="tools-category-title">Video Downloader</h3>
+                        <div class="tools-list">
+                            <a href="/" class="tool-item active" aria-label="TikTok Downloader">
+                                <img src="https://logo.clearbit.com/tiktok.com" alt="TikTok" class="tool-logo" width="40" height="40" loading="lazy" onerror="this.style.display='none'">
+                                <span class="tool-title">TikTok Downloader</span>
+                                <p>Download TikTok videos without watermark instantly</p>
+                            </a>
+                            <a href="/instagram" class="tool-item active" aria-label="Instagram Downloader">
+                                <img src="https://logo.clearbit.com/instagram.com" alt="Instagram" class="tool-logo" width="40" height="40" loading="lazy" onerror="this.style.display='none'">
+                                <span class="tool-title">Instagram Downloader</span>
+                                <p>Save Instagram videos, reels and photos easily</p>
+                            </a>
+                            <a href="/youtube" class="tool-item active" aria-label="YouTube Downloader">
+                                <img src="https://logo.clearbit.com/youtube.com" alt="YouTube" class="tool-logo" width="40" height="40" loading="lazy" onerror="this.style.display='none'">
+                                <span class="tool-title">YouTube Downloader</span>
+                                <p>Download YouTube videos in HD quality</p>
+                            </a>
+                            <a href="/facebook" class="tool-item active" aria-label="Facebook Downloader">
+                                <img src="https://logo.clearbit.com/facebook.com" alt="Facebook" class="tool-logo" width="40" height="40" loading="lazy" onerror="this.style.display='none'">
+                                <span class="tool-title">Facebook Downloader</span>
+                                <p>Download Facebook videos in high quality</p>
+                            </a>
+                            <a href="/twitter" class="tool-item active" aria-label="Twitter/X Downloader">
+                                <img src="https://logo.clearbit.com/twitter.com" alt="Twitter/X" class="tool-logo" width="40" height="40" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22%3E%3Ctext y=%2230%22 font-size=%2230%22%3E𝕏%3C/text%3E%3C/svg%3E'">
+                                <span class="tool-title">Twitter/X Downloader</span>
+                                <p>Save Twitter videos and GIFs to your device</p>
+                            </a>
+                            <a href="/bilibili" class="tool-item active" aria-label="BStation Downloader">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEY5HkJ5asMo_TH3L1u5kCwNT6DSMJr--dqA&s" alt="BStation" class="tool-logo" width="40" height="40" loading="lazy">
+                                <span class="tool-title">BStation Downloader</span>
+                                <p>Download BStation/Bilibili videos easily</p>
+                            </a>
+                            <a href="/snackvideo" class="tool-item active" aria-label="Snack Video Downloader">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Snack_Video_Logo.png/120px-Snack_Video_Logo.png" alt="Snack Video" class="tool-logo" width="40" height="40" loading="lazy" onerror="this.src='https://play-lh.googleusercontent.com/51lDLts-Zt3oKRMDlYZK1C0xi8rK5v9qpxEJXBeX3uHh48gs3mq39p54o93xy3s8fw=s48'">
+                                <span class="tool-title">Snack Video Downloader</span>
+                                <p>Save Snack Video content to your device</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Tools Convert Category -->
+                    <div class="tools-category" data-category="convert-pdf" id="convert-pdf-panel" role="tabpanel">
+                        <h3 class="tools-category-title">Convert PDF</h3>
+                        <div class="tools-list">
+                            <a href="/pdf-converter" class="tool-item active" aria-label="PDF to Word Converter">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/Microsoft_Office_Word_(2019%E2%80%93present).svg" onerror="this.src='https://cdn-icons-png.flaticon.com/32/888/888883.png'" alt="Word" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">PDF to Word</span>
+                                <p>Convert PDF documents to editable Word files</p>
+                            </a>
+                            <a href="/pdf-converter" class="tool-item active" aria-label="Word to PDF Converter">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/Microsoft_Office_Word_(2019%E2%80%93present).svg" onerror="this.src='https://cdn-icons-png.flaticon.com/32/888/888883.png'" alt="Word" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">Word to PDF</span>
+                                <p>Convert Word documents to PDF format</p>
+                            </a>
+                            <a href="/pdf-converter" class="tool-item active" aria-label="PDF to JPG Converter">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://cdn-icons-png.flaticon.com/32/337/337940.png" alt="JPG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">PDF to JPG</span>
+                                <p>Convert PDF pages to JPG images</p>
+                            </a>
+                            <a href="/pdf-converter" class="tool-item active" aria-label="JPG to PDF Converter">
+                                <div class="tool-logos-combo">
+                                    <img src="https://cdn-icons-png.flaticon.com/32/337/337940.png" alt="JPG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">JPG to PDF</span>
+                                <p>Convert JPG images to PDF documents</p>
+                            </a>
+                            <a href="/pdf-converter" class="tool-item active" aria-label="PDF to PNG Converter">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337948.png" alt="PNG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">PDF to PNG</span>
+                                <p>Convert PDF pages to PNG images</p>
+                            </a>
+                            <a href="/pdf-converter" class="tool-item active" aria-label="PNG to PDF Converter">
+                                <div class="tool-logos-combo">
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337948.png" alt="PNG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span class="tool-title">PNG to PDF</span>
+                                <p>Convert PNG images to PDF documents</p>
+                            </a>
+                            <a href="/pdf-converter" class="tool-item active" aria-label="PDF to PPT">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Microsoft_Office_PowerPoint_(2019%E2%80%93present).svg" onerror="this.src='https://cdn-icons-png.flaticon.com/32/888/888874.png'" alt="PowerPoint" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span>PDF to PPT</span>
+                                <p>Convert PDF to PowerPoint presentations</p>
+                            </a>
+                            <a href="/pdf-converter" class="tool-item active" aria-label="PPT to PDF">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Microsoft_Office_PowerPoint_(2019%E2%80%93present).svg" onerror="this.src='https://cdn-icons-png.flaticon.com/32/888/888874.png'" alt="PowerPoint" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span>PPT to PDF</span>
+                                <p>Convert PowerPoint slides to PDF format</p>
+                            </a>
+                            <a href="/pdf-converter" class="tool-item active" aria-label="PDF to Excel">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Microsoft_Office_Excel_(2019%E2%80%93present).svg" onerror="this.src='https://cdn-icons-png.flaticon.com/32/888/888850.png'" alt="Excel" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span>PDF to Excel</span>
+                                <p>Convert PDF tables to Excel spreadsheets</p>
+                            </a>
+                            <a href="/pdf-converter" class="tool-item active" aria-label="Excel to PDF">
+                                <div class="tool-logos-combo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Microsoft_Office_Excel_(2019%E2%80%93present).svg" onerror="this.src='https://cdn-icons-png.flaticon.com/32/888/888850.png'" alt="Excel" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span>Excel to PDF</span>
+                                <p>Convert Excel spreadsheets to PDF files</p>
+                            </a>
+                            <a href="/pdf-converter" class="tool-item active" aria-label="Merge PDF">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo" width="40" height="40" loading="lazy">
+                                <span class="tool-title">Merge PDF</span>
+                                <p>Combine multiple PDFs into one file</p>
+                            </a>
+                            <a href="/pdf-converter" class="tool-item active" aria-label="Split PDF">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo" width="40" height="40" loading="lazy">
+                                <span class="tool-title">Split PDF</span>
+                                <p>Split PDF into multiple separate files</p>
+                            </a>
+                            <a href="/pdf-converter" class="tool-item active" aria-label="Compress PDF">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" alt="PDF" class="tool-logo" width="40" height="40" loading="lazy">
+                                <span class="tool-title">Compress PDF</span>
+                                <p>Reduce PDF file size efficiently</p>
+                            </a>
+                            <a href="/image-converter" class="tool-item active" aria-label="JPG to PNG">
+                                <div class="tool-logos-combo">
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337940.png" alt="JPG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337948.png" alt="PNG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span>JPG to PNG</span>
+                                <p>Convert JPG images to PNG format</p>
+                            </a>
+                            <a href="/image-converter" class="tool-item active" aria-label="PNG to JPG">
+                                <div class="tool-logos-combo">
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337948.png" alt="PNG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337940.png" alt="JPG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span>PNG to JPG</span>
+                                <p>Convert PNG images to JPG format</p>
+                            </a>
+                            <a href="/image-converter" class="tool-item active" aria-label="WebP to JPG">
+                                <div class="tool-logos-combo">
+                                    <img src="https://www.gstatic.com/webp/gallery/1.sm.webp" alt="WebP" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                    <span class="arrow-icon">→</span>
+                                    <img src="https://cdn-icons-png.flaticon.com/64/337/337940.png" alt="JPG" class="tool-logo-small" width="28" height="28" loading="lazy">
+                                </div>
+                                <span>WebP to JPG</span>
+                                <p>Convert WebP images to JPG format</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Image Tools Category -->
+                    <div class="tools-category" data-category="image-tools" id="image-tools-panel" role="tabpanel">
+                        <h3 class="tools-category-title">Image Tools</h3>
+                        <div class="tools-list">
+                            <a href="#" class="tool-item coming-soon">
+                                <img src="https://cdn-icons-png.flaticon.com/64/3342/3342137.png" alt="Remove Background" class="tool-logo" width="40" height="40" loading="lazy">
+                                <span>Remove Background</span>
+                                <p>Remove image background automatically with AI</p>
+                            </a>
+                            <a href="#" class="tool-item coming-soon">
+                                <img src="https://cdn-icons-png.flaticon.com/64/2921/2921226.png" alt="Remove Watermark" class="tool-logo" width="40" height="40" loading="lazy">
+                                <span>Remove Watermark</span>
+                                <p>Remove watermarks from images easily</p>
+                            </a>
+                            <a href="#" class="tool-item coming-soon">
+                                <img src="https://cdn-icons-png.flaticon.com/64/1828/1828911.png" alt="Remove Object" class="tool-logo" width="40" height="40" loading="lazy">
+                                <span>Remove Object</span>
+                                <p>Remove unwanted objects from photos</p>
+                            </a>
+                            <a href="#" class="tool-item coming-soon">
+                                <img src="https://cdn-icons-png.flaticon.com/64/2767/2767146.png" alt="Enhance Image" class="tool-logo" width="40" height="40" loading="lazy">
+                                <span>Enhance Image</span>
+                                <p>Enhance image quality with AI technology</p>
+                            </a>
+                            <a href="#" class="tool-item coming-soon">
+                                <img src="https://cdn-icons-png.flaticon.com/64/2921/2921317.png" alt="Upscale Image" class="tool-logo" width="40" height="40" loading="lazy">
+                                <span>Upscale Image</span>
+                                <p>Increase image resolution without quality loss</p>
+                            </a>
+                            <a href="#" class="tool-item coming-soon">
+                                <img src="https://cdn-icons-png.flaticon.com/64/3039/3039386.png" alt="Restore Photo" class="tool-logo" width="40" height="40" loading="lazy">
+                                <span>Restore Photo</span>
+                                <p>Restore old and damaged photos instantly</p>
+                            </a>
+                            <a href="#" class="tool-item coming-soon">
+                                <img src="https://cdn-icons-png.flaticon.com/64/3616/3616215.png" alt="Fix Blur" class="tool-logo" width="40" height="40" loading="lazy">
+                                <span>Fix Blur</span>
+                                <p>Fix blurry images with AI enhancement</p>
+                            </a>
+                            <a href="#" class="tool-item coming-soon">
+                                <img src="https://cdn-icons-png.flaticon.com/64/1040/1040241.png" alt="Colorize Photo" class="tool-logo" width="40" height="40" loading="lazy">
+                                <span>Colorize Photo</span>
+                                <p>Add color to black and white photos</p>
+                            </a>
+                            <a href="#" class="tool-item coming-soon">
+                                <img src="https://cdn-icons-png.flaticon.com/64/2921/2921222.png" alt="Resize Image" class="tool-logo" width="40" height="40" loading="lazy">
+                                <span>Resize Image</span>
+                                <p>Resize images to any dimension you need</p>
+                            </a>
+                            <a href="#" class="tool-item coming-soon">
+                                <img src="https://cdn-icons-png.flaticon.com/64/2721/2721279.png" alt="Compress Image" class="tool-logo" width="40" height="40" loading="lazy">
+                                <span>Compress Image</span>
+                                <p>Reduce image file size without losing quality</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="how-to" id="how-to">
+            <div class="container">
+                {% if platform == 'youtube' %}
+                <h2>How to Download YouTube Videos?</h2>
+                <div class="tutorial-content">
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3>Open YouTube Video</h3>
+                            <p>Go to YouTube and open the video you want to download. Copy the video URL from your browser's address bar.</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/youtube-1.png') }}" alt="Copy YouTube URL" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Copy URL from YouTube</p>
+                                    <small>Upload: static/tutorial/youtube-1.png</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3>Paste URL Here</h3>
+                            <p>Paste the YouTube video link in the input box above and click the "Download" button.</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/youtube-2.png') }}" alt="Paste YouTube URL" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Paste URL in input box</p>
+                                    <small>Upload: static/tutorial/youtube-2.png</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3>Choose Quality & Download</h3>
+                            <p>Select your preferred video quality (4K, 1080p, 720p, 480p) or MP3 audio, then click download to save.</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/youtube-3.png') }}" alt="Download YouTube Video" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Select quality and download</p>
+                                    <small>Upload: static/tutorial/youtube-3.png</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% elif platform == 'tiktok' %}
+                <h2>How to Download TikTok Videos Without Watermark?</h2>
+                <div class="tutorial-content">
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3>Open TikTok App/Website</h3>
+                            <p>Open the TikTok video you want to download. Tap the "Share" button and select "Copy Link".</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/tiktok-1.png') }}" alt="Copy TikTok Link" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Copy TikTok link from app</p>
+                                    <small>Upload: static/tutorial/tiktok-1.png</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3>Paste TikTok Link</h3>
+                            <p>Paste the TikTok video link in the input box above and click "Download".</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/tiktok-2.png') }}" alt="Paste TikTok URL" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Paste TikTok link</p>
+                                    <small>Upload: static/tutorial/tiktok-2.png</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3>Download Without Watermark</h3>
+                            <p>The video will be processed and you can download it without the TikTok watermark.</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/tiktok-3.png') }}" alt="Download TikTok Video" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Download TikTok video</p>
+                                    <small>Upload: static/tutorial/tiktok-3.png</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% elif platform == 'instagram' %}
+                <h2>How to Download Instagram Videos & Reels?</h2>
+                <div class="tutorial-content">
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3>Copy Instagram Link</h3>
+                            <p>Open Instagram, find the video/reel you want. Tap "⋯" (three dots) and select "Copy Link".</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/instagram-1.png') }}" alt="Copy Instagram Link" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Copy Instagram link</p>
+                                    <small>Upload: static/tutorial/instagram-1.png</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3>Paste Instagram URL</h3>
+                            <p>Paste the Instagram video/reel link in the box above and press "Download".</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/instagram-2.png') }}" alt="Paste Instagram URL" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Paste Instagram URL</p>
+                                    <small>Upload: static/tutorial/instagram-2.png</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3>Save Instagram Video</h3>
+                            <p>Click the download button to save the Instagram video/reel to your device.</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/instagram-3.png') }}" alt="Download Instagram Video" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Download Instagram video</p>
+                                    <small>Upload: static/tutorial/instagram-3.png</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% elif platform == 'facebook' %}
+                <h2>How to Download Facebook Videos?</h2>
+                <div class="tutorial-content">
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3>Get Facebook Video Link</h3>
+                            <p>Go to the Facebook video post. Right-click on the video and select "Copy video URL at current time" or copy from address bar.</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/facebook-1.png') }}" alt="Copy Facebook Video Link" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Copy Facebook video URL</p>
+                                    <small>Upload: static/tutorial/facebook-1.png</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3>Paste Facebook Link</h3>
+                            <p>Paste the Facebook video URL in the input field above and click "Download".</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/facebook-2.png') }}" alt="Paste Facebook URL" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Paste Facebook link</p>
+                                    <small>Upload: static/tutorial/facebook-2.png</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3>Choose Quality & Save</h3>
+                            <p>Select HD or SD quality and click download to save the Facebook video.</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/facebook-3.png') }}" alt="Download Facebook Video" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Download Facebook video</p>
+                                    <small>Upload: static/tutorial/facebook-3.png</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% elif platform == 'bilibili' %}
+                <h2>How to Download BStation Videos?</h2>
+                <div class="tutorial-content">
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3>Copy BStation URL</h3>
+                            <p>Go to Bilibili.com or Bilibili.tv, open the video, and copy the URL from your browser.</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/bilibili-1.png') }}" alt="Copy BStation URL" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Copy BStation video URL</p>
+                                    <small>Upload: static/tutorial/bilibili-1.png</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3>Paste BStation Link</h3>
+                            <p>Paste the BStation video link in the input box and click "Download".</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/bilibili-2.png') }}" alt="Paste BStation URL" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Paste BStation URL</p>
+                                    <small>Upload: static/tutorial/bilibili-2.png</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3>Select Quality & Download</h3>
+                            <p>Choose from available quality options (360p to 4K) and download the video.</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/bilibili-3.png') }}" alt="Download BStation Video" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Download BStation video</p>
+                                    <small>Upload: static/tutorial/bilibili-3.png</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% elif platform == 'snackvideo' %}
+                <h2>How to Download Snack Videos?</h2>
+                <div class="tutorial-content">
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3>Copy Snack Video Link</h3>
+                            <p>Open Snack Video app, find the video, tap "Share" and select "Copy Link".</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/snackvideo-1.png') }}" alt="Copy Snack Video Link" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Copy Snack Video link</p>
+                                    <small>Upload: static/tutorial/snackvideo-1.png</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3>Paste Link Here</h3>
+                            <p>Paste the Snack Video link in the input field and press "Download".</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/snackvideo-2.png') }}" alt="Paste Snack Video URL" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Paste Snack Video link</p>
+                                    <small>Upload: static/tutorial/snackvideo-2.png</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3>Save Video</h3>
+                            <p>Click the download button to save the Snack Video to your device.</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/snackvideo-3.png') }}" alt="Download Snack Video" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Download Snack Video</p>
+                                    <small>Upload: static/tutorial/snackvideo-3.png</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% elif platform == 'twitter' %}
+                <h2>How to Download Twitter/X Videos?</h2>
+                <div class="tutorial-content">
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3>Copy Twitter/X Video Link</h3>
+                            <p>Open the Twitter/X post with the video. Click "Share" icon and select "Copy link to Tweet".</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/twitter-1.png') }}" alt="Copy Twitter Link" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Copy Twitter/X video link</p>
+                                    <small>Upload: static/tutorial/twitter-1.png</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3>Paste Twitter/X URL</h3>
+                            <p>Paste the Twitter/X video link in the input box above and click "Download".</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/twitter-2.png') }}" alt="Paste Twitter URL" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Paste Twitter/X URL</p>
+                                    <small>Upload: static/tutorial/twitter-2.png</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3>Download Video or GIF</h3>
+                            <p>Choose your preferred quality (HD/SD) and click download to save the Twitter/X video or GIF.</p>
+                            <div class="tutorial-image-placeholder">
+                                <img src="{{ url_for('static', filename='tutorial/twitter-3.png') }}" alt="Download Twitter Video" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                                <div class="image-placeholder" style="display:none;">
+                                    <p>📸 Add screenshot: Download Twitter/X video</p>
+                                    <small>Upload: static/tutorial/twitter-3.png</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% else %}
+                <h2>How to Download Videos?</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Copy Video URL</h3>
+                        <p>Copy the link of the video you want to download from any supported platform</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Paste Link</h3>
+                        <p>Paste the URL in the input box above and click Download button</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Download Video</h3>
+                        <p>Choose your preferred quality and click download to save the video</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Snapload - Downloader Video. All rights reserved.</p>
+            <p>Made with ❤️ for video lovers</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</body>
+</html>
+
+

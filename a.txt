@@ -1,0 +1,10 @@
+pdf-converter.js:83 PDF Converter Loaded - Tool Type: 
+:5000/api/pdf/to-image:1  Failed to load resource: the server responded with a status of 404 (NOT FOUND)
+pdf-to-png:563 Uncaught (in promise) TypeError: Cannot set properties of null (setting 'textContent')
+    at showError (pdf-to-png:563:65)
+    at pdf-to-png:556:17
+:5000/api/pdf/to-image:1  Failed to load resource: the server responded with a status of 404 (NOT FOUND)
+pdf-to-png:563 Uncaught (in promise) TypeError: Cannot set properties of null (setting 'textContent')
+    at showError (pdf-to-png:563:65)
+    at pdf-to-png:556:17
+

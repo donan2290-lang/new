@@ -1,0 +1,227 @@
+# English translations for Snapload Video Downloader.
+# Copyright (C) 2025
+# This file is distributed under the same license as the project.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-21 12:00+0000\n"
+"PO-Revision-Date: 2025-11-21 12:00+0000\n"
+"Last-Translator: \n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.0\n"
+
+# Navigation & Common
+msgid "home"
+msgstr "Home"
+
+msgid "download_video"
+msgstr "Download Video"
+
+msgid "pdf_converter"
+msgstr "PDF Converter"
+
+msgid "image_converter"
+msgstr "Image Converter"
+
+msgid "language"
+msgstr "Language"
+
+# Video Downloader
+msgid "video_downloader_title"
+msgstr "Download Videos from YouTube, TikTok, Instagram & More"
+
+msgid "video_downloader_description"
+msgstr "Download videos from various platforms easily and quickly. Free and unlimited!"
+
+msgid "paste_video_url"
+msgstr "Paste video URL here..."
+
+msgid "download_button"
+msgstr "Download"
+
+msgid "select_quality"
+msgstr "Select Quality"
+
+msgid "downloading"
+msgstr "Downloading..."
+
+msgid "download_success"
+msgstr "Download successful!"
+
+msgid "download_failed"
+msgstr "Download failed"
+
+msgid "invalid_url"
+msgstr "Invalid URL"
+
+msgid "unsupported_platform"
+msgstr "Unsupported platform"
+
+msgid "supported_platforms"
+msgstr "Supported Platforms"
+
+# PDF Converter
+msgid "pdf_converter_title"
+msgstr "PDF Converter - PDF to Word, Excel, JPG & More"
+
+msgid "pdf_converter_description"
+msgstr "Convert PDF files to various formats for free"
+
+msgid "pdf_to_word"
+msgstr "PDF to Word"
+
+msgid "pdf_to_excel"
+msgstr "PDF to Excel"
+
+msgid "pdf_to_jpg"
+msgstr "PDF to JPG"
+
+msgid "pdf_to_png"
+msgstr "PDF to PNG"
+
+msgid "word_to_pdf"
+msgstr "Word to PDF"
+
+msgid "excel_to_pdf"
+msgstr "Excel to PDF"
+
+msgid "jpg_to_pdf"
+msgstr "JPG to PDF"
+
+msgid "merge_pdf"
+msgstr "Merge PDF"
+
+msgid "split_pdf"
+msgstr "Split PDF"
+
+msgid "compress_pdf"
+msgstr "Compress PDF"
+
+msgid "upload_file"
+msgstr "Upload File"
+
+msgid "convert_button"
+msgstr "Convert"
+
+msgid "converting"
+msgstr "Converting..."
+
+msgid "conversion_success"
+msgstr "Conversion successful!"
+
+msgid "conversion_failed"
+msgstr "Conversion failed"
+
+# Image Converter
+msgid "image_converter_title"
+msgstr "Image Converter - JPG, PNG, WebP & More"
+
+msgid "image_converter_description"
+msgstr "Convert image formats for free and easily"
+
+msgid "jpg_to_png"
+msgstr "JPG to PNG"
+
+msgid "png_to_jpg"
+msgstr "PNG to JPG"
+
+msgid "webp_to_jpg"
+msgstr "WebP to JPG"
+
+msgid "remove_background"
+msgstr "Remove Background"
+
+msgid "resize_image"
+msgstr "Resize Image"
+
+msgid "compress_image"
+msgstr "Compress Image"
+
+msgid "enhance_image"
+msgstr "Enhance Quality"
+
+# File Upload
+msgid "drag_drop_file"
+msgstr "Drag & drop file here"
+
+msgid "or"
+msgstr "or"
+
+msgid "browse_file"
+msgstr "Browse File"
+
+msgid "max_file_size"
+msgstr "Maximum size"
+
+msgid "file_selected"
+msgstr "File selected"
+
+msgid "select_files"
+msgstr "Select Files"
+
+# Errors & Messages
+msgid "error_occurred"
+msgstr "An error occurred"
+
+msgid "please_try_again"
+msgstr "Please try again"
+
+msgid "no_file_selected"
+msgstr "No file selected"
+
+msgid "invalid_file_type"
+msgstr "Invalid file type"
+
+msgid "file_too_large"
+msgstr "File too large"
+
+msgid "rate_limit_exceeded"
+msgstr "Rate limit exceeded. Please wait a moment."
+
+msgid "server_error"
+msgstr "Server error"
+
+msgid "network_error"
+msgstr "Network error"
+
+# Features
+msgid "features"
+msgstr "Features"
+
+msgid "free_unlimited"
+msgstr "Free & Unlimited"
+
+msgid "fast_download"
+msgstr "Fast Download"
+
+msgid "high_quality"
+msgstr "High Quality"
+
+msgid "no_registration"
+msgstr "No Registration"
+
+msgid "secure_private"
+msgstr "Secure & Private"
+
+# Footer
+msgid "about"
+msgstr "About"
+
+msgid "contact"
+msgstr "Contact"
+
+msgid "privacy_policy"
+msgstr "Privacy Policy"
+
+msgid "terms_of_service"
+msgstr "Terms of Service"
+
+msgid "all_rights_reserved"
+msgstr "All Rights Reserved"
