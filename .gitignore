@@ -26,6 +26,17 @@ Thumbs.db
 
 # Logs
 *.log
+logs/
+
+# Environment
+.env
+.env.local
+
+# Uploads & Outputs
+uploads/*
+!uploads/.gitkeep
+outputs/*
+!outputs/.gitkeep
 
 # Downloaded videos (if saving locally)
 downloads/
